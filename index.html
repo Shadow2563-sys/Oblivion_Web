@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connecting to Oblivion</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    
+    :root {
+      --neon-green: #0f0;
+      --dark-bg: #0a0a0a;
+      --light-bg: #111;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark-bg);
+      overflow: hidden;
+      font-family: 'Orbitron', sans-serif;
+    }
+    
+    .shadow-realm {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #000 0%, #001a00 100%);
+      z-index: 9999;
+    }
+    
+    .terminal-loader {
+      width: 300px;
+      height: 300px;
+      position: relative;
+    }
+    
+    .terminal-spinner {
+      width: 100%;
+      height: 100%;
+      border: 3px solid transparent;
+      border-top-color: var(--neon-green);
+      border-radius: 50%;
+      animation: spin 2s linear infinite;
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+    
+    .terminal-spinner:before, .terminal-spinner:after {
+      content: "";
+      position: absolute;
+      border: 3px solid transparent;
+      border-radius: 50%;
+      border-top-color: var(--neon-green);
+      top: 5px;
+      bottom: 5px;
+      left: 5px;
+      right: 5px;
+      animation: spin 3s linear infinite;
+      opacity: 0.8;
+    }
+    
+    .terminal-spinner:after {
+      top: 15px;
+      bottom: 15px;
+      left: 15px;
+      right: 15px;
+      animation: spin 4s linear infinite;
+      opacity: 0.5;
+    }
+    
+    .loading-text {
+      color: var(--neon-green);
+      text-shadow: 0 0 5px var(--neon-green);
+      margin-top: 30px;
+      font-size: 1.5rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: pulse 1.5s infinite alternate;
+    }
+    
+    .loading-dots:after {
+      content: " .";
+      animation: dots 1.5s steps(5, end) infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    
+    @keyframes dots {
+      0%, 20% { content: " ."; }
+      40% { content: " .."; }
+      60%, 100% { content: " ..."; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shadow-realm">
+    <div class="terminal-loader">
+      <div class="terminal-spinner"></div>
+    </div>
+    <h1 class="loading-text">ACCESSING OBLIVION<span class="loading-dots"></span></h1>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 4500); // Increased duration for dramatic effect
+  </script>
+</body>
+</html>
