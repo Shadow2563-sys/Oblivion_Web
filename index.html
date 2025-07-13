@@ -82,6 +82,8 @@
       letter-spacing: 3px;
       text-transform: uppercase;
       animation: pulse 1.5s infinite alternate;
+      text-align: center;
+      min-height: 60px;
     }
     
     .loading-dots:after {
@@ -111,13 +113,37 @@
     <div class="terminal-loader">
       <div class="terminal-spinner"></div>
     </div>
-    <h1 class="loading-text">ACCESSING OBLIVION<span class="loading-dots"></span></h1>
+    <h1 class="loading-text" id="status-message">INITIALIZING CONNECTION<span class="loading-dots"></span></h1>
   </div>
 
   <script>
+    const messages = [
+      "CONNECTING TO THE VOID...",
+      "GAINING ACCESS FROM THE SHADOWS...",
+      "ESTABLISHING DARK LINK...",
+      "BYPASSING SECURITY PROTOCOLS...",
+      "DECRYPTING SHADOW NETWORK...",
+      "ACCESSING FORBIDDEN DATA STREAMS...",
+      "SYNCING WITH OBLIVION NETWORK...",
+      "ESTABLISHING PSYCHIC LINK...",
+      "DOWNLOADING COSMIC KNOWLEDGE...",
+      "ACCESS GRANTED. WELCOME TO OBLIVION..."
+    ];
+    
+    const statusElement = document.getElementById('status-message');
+    let currentMessage = 0;
+    
+    // Change message every 500ms
+    const messageInterval = setInterval(() => {
+      statusElement.innerHTML = messages[currentMessage] + '<span class="loading-dots"></span>';
+      currentMessage = (currentMessage + 1) % messages.length;
+    }, 500);
+    
+    // Redirect after 5 seconds
     setTimeout(() => {
+      clearInterval(messageInterval);
       window.location.href = "login.html";
-    }, 4500); // Increased duration for dramatic effect
+    }, 5000);
   </script>
 </body>
 </html>
