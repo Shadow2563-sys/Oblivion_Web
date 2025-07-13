@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oblivion Portal - Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-green: #0f0;
+      --dark-bg: #0a0a0a;
+      --light-bg: #111;
+      --input-bg: #222;
+      --text-color: #eee;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-color);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .login-container {
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      width: 400px;
+      padding: 40px;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+      border: 1px solid rgba(0, 255, 0, 0.1);
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--neon-green);
+      text-shadow: 0 0 10px var(--neon-green);
+      letter-spacing: 3px;
+      font-size: 2rem;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #aaa;
+    }
+    
+    .input-group input {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--input-bg);
+      border: 1px solid #333;
+      border-radius: 5px;
+      color: var(--text-color);
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--neon-green);
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+    }
+    
+    .forgot-password {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    
+    .forgot-password a {
+      color: #666;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+    
+    .forgot-password a:hover {
+      color: var(--neon-green);
+    }
+    
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #00aa00, #008800);
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    button:hover {
+      background: linear-gradient(135deg, #00cc00, #00aa00);
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .signup-link {
+      text-align: center;
+      margin-top: 25px;
+      color: #666;
+    }
+    
+    .signup-link a {
+      color: var(--neon-green);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .signup-link a:hover {
+      text-shadow: 0 0 5px var(--neon-green);
+    }
+    
+    .error-message {
+      color: #ff3333;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 40px;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .security-features {
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(0, 30, 0, 0.2);
+      border-radius: 5px;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .security-features i {
+      color: var(--neon-green);
+      margin-right: 5px;
+    }
+    
+    .attempts-warning {
+      color: #ff3333;
+      font-size: 12px;
+      margin-top: 10px;
+      display: none;
+    }
+    
+    .timeout-message {
+      color: #ff9900;
+      font-size: 14px;
+      margin: 10px 0;
+      display: none;
+    }
+    
+    .shake {
+      animation: shake 0.5s;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <h1>OBLIVION</h1>
+    </div>
+    
+    <div class="security-features">
+      <i>🔐</i>
+      <span>Secure authentication with end-to-end encryption</span>
+    </div>
+    
+    <div class="timeout-message"></div>
+    
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="loginIdentifier">Username or Email</label>
+        <input type="text" id="loginIdentifier" placeholder="Enter your username or email" required>
+      </div>
+      
+      <div class="input-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required minlength="12">
+        <span class="password-toggle" id="togglePassword">👁️</span>
+      </div>
+      
+      <div class="error-message" id="loginError"></div>
+      <div class="attempts-warning"></div>
+      
+      <div class="forgot-password">
+        <a href="forgot-password.html">Forgot password?</a>
+      </div>
+      
+      <button type="submit" id="loginButton">LOGIN</button>
+      
+      <div class="signup-link">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Track failed login attempts
+    let failedAttempts = parseInt(localStorage.getItem('failedLoginAttempts')) || 0;
+    let lastFailedAttempt = parseInt(localStorage.getItem('lastFailedAttempt')) || 0;
+    const maxAttempts = 5;
+    const lockoutDuration = 5 * 60 * 1000; // 5 minutes
+    
+    // Check if user is in timeout
+    const now = Date.now();
+    if (lastFailedAttempt > 0 && (now - lastFailedAttempt) < lockoutDuration && failedAttempts >= maxAttempts) {
+      document.getElementById('loginForm').style.display = 'none';
+      document.querySelector('.timeout-message').style.display = 'block';
+      document.querySelector('.timeout-message').textContent = 
+        `Too many failed attempts. Please try again in ${Math.ceil((lockoutDuration - (now - lastFailedAttempt)) / 1000 / 60)} minutes.`;
+    }
+    
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('loginPassword');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+    });
+    
+    // Enhanced login with security measures
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Check if user is locked out
+      if (failedAttempts >= maxAttempts && (now - lastFailedAttempt) < lockoutDuration) {
+        alert(`Too many failed attempts. Please try again in ${Math.ceil((lockoutDuration - (now - lastFailedAttempt)) / 1000 / 60)} minutes.`);
+        return;
+      }
+      
+      const loginButton = document.getElementById('loginButton');
+      const errorElement = document.getElementById('loginError');
+      
+      // Show loading state
+      loginButton.textContent = 'AUTHENTICATING...';
+      loginButton.disabled = true;
+      
+      try {
+        // Client-side hashing before sending password
+        const identifier = document.getElementById('loginIdentifier').value;
+        const password = document.getElementById('loginPassword').value;
+        
+        // Generate a one-time token for this request
+        const challenge = window.crypto.getRandomValues(new Uint8Array(16));
+        const challengeHex = Array.from(challenge).map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        // Hash the password with the challenge
+        const encoder = new TextEncoder();
+        const passwordBuffer = encoder.encode(password + challengeHex);
+        const hashedPassword = await window.crypto.subtle.digest('SHA-256', passwordBuffer);
+        const hashedPasswordHex = Array.from(new Uint8Array(hashedPassword)).map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        // Send to server
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-Auth-Challenge': challengeHex
+          },
+          body: JSON.stringify({
+            identifier: identifier,
+            password: hashedPasswordHex
+          }),
+          credentials: 'include'
+        });
+        
+        if(response.ok) {
+          // Reset failed attempts on success
+          localStorage.removeItem('failedLoginAttempts');
+          localStorage.removeItem('lastFailedAttempt');
+          
+          // Redirect with nonce to prevent open redirects
+          const nonce = window.crypto.getRandomValues(new Uint8Array(16)).join('');
+          localStorage.setItem('redirect_nonce', nonce);
+          window.location.href = `dashboard.html?nonce=${nonce}`;
+        } else {
+          // Handle failed attempt
+          failedAttempts++;
+          localStorage.setItem('failedLoginAttempts', failedAttempts);
+          localStorage.setItem('lastFailedAttempt', Date.now());
+          
+          // Show remaining attempts
+          const remainingAttempts = maxAttempts - failedAttempts;
+          if (remainingAttempts > 0) {
+            document.querySelector('.attempts-warning').style.display = 'block';
+            document.querySelector('.attempts-warning').textContent = 
+              `Invalid credentials. ${remainingAttempts} attempt${remainingAttempts > 1 ? 's' : ''} remaining.`;
+          } else {
+            document.querySelector('.attempts-warning').style.display = 'none';
+            document.querySelector('.timeout-message').style.display = 'block';
+            document.querySelector('.timeout-message').textContent = 
+              `Too many failed attempts. Please try again in ${lockoutDuration / 1000 / 60} minutes.`;
+            document.getElementById('loginForm').style.display = 'none';
+          }
+          
+          // Show error message
+          const data = await response.json();
+          errorElement.textContent = data.error || "Invalid credentials!";
+          errorElement.style.display = 'block';
+          
+          // Shake animation for error
+          document.getElementById('loginForm').classList.add('shake');
+          setTimeout(() => {
+            document.getElementById('loginForm').classList.remove('shake');
+          }, 500);
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        errorElement.textContent = "Network error. Please try again.";
+        errorElement.style.display = 'block';
+      } finally {
+        loginButton.textContent = 'LOGIN';
+        loginButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
